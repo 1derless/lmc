@@ -1,0 +1,20 @@
+RAM 00-99
+
+PC 00
+[IR 0]
+[AR 00]
+ACC 000
+
+INPUT
+OUTPUT
+
+0XX - HLT; Halts execution.
+1XX - ADD; Adds datum at address XX.
+2XX - SUB; Subtracts datum at address XX.
+3XX - STA; Stores ACC to address XX.
+4XX -  - ; Not implemented.
+5XX - LDA; Loads datum at address XX.
+6XX - BRA; Loads XX into PC.
+7XX - BRZ; Loads XX into PC if ACC == +000 or -000.
+8XX - BRP; Loads XX into PC if ACC >= 0...?
+9XX - INP (if addr. = 1 ) / OUT (if addr. = 2) / OTC (if addr. = 22) / DAT
