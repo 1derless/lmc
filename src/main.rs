@@ -77,7 +77,7 @@ impl Lmc {
             let mut array: [D3; 100] = std::mem::uninitialized();
             let mut lines = s.split_whitespace();
 
-            for mut v in array.iter_mut() {
+            for v in array.iter_mut() {
                 if let Some(line) = lines.next() {
                     match line.parse::<i16>() {
                         Ok(i) => *v = D3::new(i),
