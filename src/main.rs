@@ -101,7 +101,7 @@ impl Lmc {
         // =====Fetch=====
         let instruction = self.mem[self.pc.value as usize].value;
 
-        // Increments the PC
+        // Increment the PC
         self.pc.value += 1;
 
         // =====Decode====
@@ -199,11 +199,13 @@ impl fmt::Display for Lmc {
             }
         }
         write!(f, "Out: {}", self.out)?;
+        
         result
     }
 }
 
 fn main() {
+<<<<<<< HEAD
     // Read file.
     use std::io::Read;
     let mut file = std::fs::File::open("program.txt").expect("couldn't open program.txt");
@@ -216,9 +218,14 @@ fn main() {
     let mut lmc = Lmc::from(&contents).unwrap_or_else(|e| panic!("Error in input {:#?}!", e));
 
     // Run emulator.
+=======
+    let mut lmc = Lmc::from("514\n317\n517\n902\n514\n922\n517\n922\n115\n317\n216\n713\n602\n000\n032\n001\n097\n000\n")
+        .unwrap_or_else(|e| panic!("Error in input {:#?}", e));
+
+>>>>>>> 2e705f3d6105f58d72329bfb377dfc1ca365299c
     loop {
         match lmc.cycle() {
-            LmcResult::Success => (), /*println!("{}", lmc),*/
+            LmcResult::Success => (),
             LmcResult::Error(pc, msg) => {
                 println!("Exception at {}:", pc);
                 println!("\t{}", msg);
