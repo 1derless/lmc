@@ -64,12 +64,12 @@ impl Lmc {
         }
     }
     /*
-    fn new_empty() -> Lmc {
-        let m = [D3::new(0); 100];
-        Lmc::new(D2::new(0), D3::new(0), m)
-    }
-*/
-    fn from(s: &'static str) -> Result<Lmc, ParseInputError> {
+        fn new_empty() -> Lmc {
+            let m = [D3::new(0); 100];
+            Lmc::new(D2::new(0), D3::new(0), m)
+        }
+    */
+    fn from(s: &str) -> Result<Lmc, ParseInputError> {
         let pc = D2::new(0);
         let acc = D3::new(0);
 
@@ -136,13 +136,17 @@ impl Lmc {
             // BRA
             (6, _) => self.pc = D2 { value: operand },
             // BRZ
-            (7, _) => if self.acc.value == 0 {
-                self.pc = D2 { value: operand }
-            },
+            (7, _) => {
+                if self.acc.value == 0 {
+                    self.pc = D2 { value: operand }
+                }
+            }
             // BRP
-            (8, _) => if self.acc.value >= 0 {
-                self.pc = D2 { value: operand }
-            },
+            (8, _) => {
+                if self.acc.value >= 0 {
+                    self.pc = D2 { value: operand }
+                }
+            }
             // INP
             (9, 1) => {
                 let mut invalid = true;
@@ -200,17 +204,25 @@ impl fmt::Display for Lmc {
 }
 
 fn main() {
-    let mut lmc = Lmc::from("514\n317\n517\n902\n514\n922\n517\n922\n115\n317\n216\n713\n602\n000\n032\n001\n097\n000\n")
-        .unwrap_or_else(|e| panic!("Error in input {:#?}!", e));
-    //println!("{}", lmc);
-    let mut going = true;
-    while going {
+    // Read file.
+    use std::io::Read;
+    let mut file = std::fs::File::open("program.txt").expect("couldn't open program.txt");
+
+    let mut contents = String::new();
+    file.read_to_string(&mut contents)
+        .expect("couldn't read program.txt");
+
+    // Parse file.
+    let mut lmc = Lmc::from(&contents).unwrap_or_else(|e| panic!("Error in input {:#?}!", e));
+
+    // Run emulator.
+    loop {
         match lmc.cycle() {
             LmcResult::Success => (), /*println!("{}", lmc),*/
             LmcResult::Error(pc, msg) => {
                 println!("Exception at {}:", pc);
                 println!("\t{}", msg);
-                going = false;
+                break;
             }
         }
     }
